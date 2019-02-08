@@ -1,0 +1,147 @@
+/* Styles */
+
+.room-reservation-admin-header {
+	background-color:#fff;
+	text-align:center;
+	box-shadow:0 1px 0 rgba(200,215,225,0.5),0 1px 2px #e9eff3
+}
+
+@media (max-width: 45rem) {
+	.room-reservation-admin-header {
+		padding:0 1.25rem
+	}
+}
+
+.room-reservation-admin-header__inside-container {
+	padding:.375rem 0;
+	margin:0 auto;
+	width:100%;
+	max-width:45rem;
+}
+
+.room-reservation-check-date-table {
+	border: none;
+}
+
+.room-reservation-check-date-table td {
+	border: none;
+	padding: 3px;
+}
+
+.room-reservation-check-date-table input {
+	position: relative;
+	border-width: 1px;
+	border-style: solid;
+	padding: 5px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	-icab-border-radius: 2px;
+	border-radius: 2px;
+	-opera-border-radius: 2px;
+	border-color: #ededed !important;
+}
+
+.room-reservation-separator {
+	border-top: 1px solid #999;
+	margin-bottom: 10px;
+}
+
+.room-reservation-button {
+	border-radius: 3px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: 1px solid transparent;
+
+    background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
+
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	touch-action: manipulation;
+	cursor: pointer;
+	user-select: none;
+}
+
+.room-reservation-button:hover {
+	color: #333;
+	background-color: #e6e6e6;
+	border-color: #adadad;
+}
+
+.button-small {
+	font-size: 11px;
+	padding: 3px 6px;
+}
+
+.room-reservation-avalable-rooms-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.room-reservation-avalable-rooms-table thead {
+	font-size: 100%;
+	vertical-align: baseline;
+}
+
+.room-reservation-avalable-rooms-table thead th {
+	background: none repeat scroll 0 0 #555;
+	border: 1px solid #999;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+.room-reservation-avalable-rooms-table tbody td {
+	border: 1px solid #999;
+	vertical-align: top;
+	padding: 5px;
+}
+
+.room-cart-container {
+	border: 1px solid #999;
+	border-radius: 5px;
+}
+
+.room-cart-container .room-cart-content {
+	padding: 10px;
+}
+
+.room-cart-header {
+	border-bottom: 1px solid #999;
+	padding: 5px;
+	background-color: #999;
+	color:#fff;
+}
+
+.room-reservation-plain {
+	font-family: "Courier New" !important;
+}
+
+.room-reservation-plain h3 {
+	font-family: "Courier New" !important;
+	text-transform: none;
+}
+
+.room-reservation-plain table {
+	padding: 0 !important;
+	border: none !important;
+	width: auto !important;
+}
+
+.room-reservation-plain table td {
+	padding: 0 !important;
+	border: none !important;
+	width: auto !important;
+	vertical-align: top !important;
+}
