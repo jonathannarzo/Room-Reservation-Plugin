@@ -11,7 +11,7 @@
 
 		$arrival = $data->arrival;
 		$departure = $data->departure;
-		$room = "{$data->room_type} (Room: {$data->room_number})";
+		$room = "{$data->room_type} (Qty: {$data->qty})";
 		$total_amount = $data->rate;
 		$number_of_nights = $data->number_of_nights;
 		$status = $data->status;

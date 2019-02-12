@@ -26,10 +26,10 @@
 <table class="room-reservation-avalable-rooms-table">
 	<thead>
 		<tr>
-			<th style="width: 10%;">Room Number</th>
 			<th style="width: 10%;">Room type</th>
 			<th style="width: 25%;">Description</th>
 			<th style="width: 10%;">Rate</th>
+			<th style="width: 10%;">Qty</th>
 			<th style="width: 35%;">Photos</th>
 			<th style="width: 10%;"></th>
 		</tr>
@@ -37,22 +37,22 @@
 	<tbody>
 	<?php if (count($data) > 0) : ?>
 		<?php foreach ($data as $item) : ?>
-			<tr id="room_cart<?=$item->id?>">
-				<td><?=$item->room_number ?></td>
-				<td><?=$item->room_type ?></td>
-				<td><?=$item->description ?></td>
-				<td><?=$item->rate ?></td>
+			<tr id="room_cart<?=$item['id']?>">
+				<td><?=$item['room_type'] ?></td>
+				<td><?=$item['description'] ?></td>
+				<td><?=$item['rate'] ?></td>
+				<td class="available_qty"><?=$item['remaining'] ?></td>
 				<td>
-					<?php $images = explode(',', $item->image); ?>
+					<?php $images = explode(',', $item['image']); ?>
 
 					<?php foreach ($images as $img) : ?>
-						<img src="<?=$img?>" alt="<?=$item->description?>" style="height: 50px;" />
+						<img src="<?=$img?>" alt="<?=$item['description']?>" style="height: 50px;" />
 					<?php endforeach; ?>
 				</td>
 				<td>
 					<?php
-						$item->start_date = $start_date;
-						$item->end_date = $end_date;
+						$item['start_date'] = $start_date;
+						$item['end_date'] = $end_date;
 					?>
 					<button class="room-reservation-button btn-room-cart" data='<?=json_encode($item)?>'>Add to Cart</button>
 				</td>

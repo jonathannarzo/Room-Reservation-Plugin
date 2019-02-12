@@ -9,18 +9,10 @@
 					<table class="form-table">
 						<tr class="form-field">
 							<th scope="row">
-								<label for="stats_excel">Room Type :</label>
+								<label for="stats_excel">Paypal Email :</label>
 							</th>
 							<td>
-								<input type="text" name="room_type" value="<?php echo $input->room_type ?>" />
-							</td>
-						</tr>
-						<tr class="form-field">
-							<th scope="row">
-								<label for="stats_excel">Description :</label>
-							</th>
-							<td>
-								<textarea name="description" rows="5"><?php echo $input->description ?></textarea>
+								<input type="text" name="paypal_email" value="<?php echo $input->paypal_email ?>" />
 							</td>
 						</tr>
 						<tr class="form-field">

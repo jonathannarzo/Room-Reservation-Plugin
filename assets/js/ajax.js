@@ -22,7 +22,16 @@ jQuery(document).ready(function($){
 				if (sdata.success)
 				{
 					get_room_cart(data['data']);
-					$('#room_cart'+sdata.id).hide();
+					var qty = $('#room_cart'+sdata.id+' td.available_qty').html();
+					console.log(qty);
+					qty = qty - 1;
+					$('#room_cart'+sdata.id+' td.available_qty').html(qty);
+					console.log(qty);
+					if (qty < 1)
+					{
+						$('#room_cart'+sdata.id).hide();
+					}
+					
 					button.prop('disabled', false);
 					$('.room-cart-container').show();
 				}

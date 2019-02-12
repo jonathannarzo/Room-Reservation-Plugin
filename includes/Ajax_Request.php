@@ -32,16 +32,6 @@ class Ajax_Request
 		die();
 	}
 
-	private static function process_name()
-	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
-		{
-			die('Invalid request method.');
-		}
-
-		echo $_POST['pangalan'];
-	}
-
 	public static function add_to_cart()
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
@@ -59,6 +49,7 @@ class Ajax_Request
 		}
 		else
 		{
+			$data['reserve_qty'] = 1;
 			$_SESSION['reservation_cart'][] = $data;
 		}
 		

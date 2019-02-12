@@ -27,7 +27,7 @@ class Reservations_List extends WP_List_Table
 		$table = Plugin_Tables::tables(self::use_table); // `rr_room_reservations` table
 		$table_t = Plugin_Tables::tables(self::use_table_t); // `rr_room_types` table
 		$table_r = Plugin_Tables::tables(self::use_table_r); // `rr_rooms` table
-		$sql = "SELECT re.*, CONCAT(re.first_name, ' ', re.last_name) fullname, r.room_number, rt.room_type 
+		$sql = "SELECT re.*, CONCAT(re.first_name, ' ', re.last_name) fullname, r.qty, rt.room_type 
 		FROM {$table} re 
 		JOIN {$table_r} r ON re.room_id = r.id 
 		JOIN {$table_t} rt ON r.room_type_id = rt.id {$do_search}";
@@ -66,7 +66,7 @@ class Reservations_List extends WP_List_Table
 	{
 		switch ($column_name) {
 			case 'fullname':
-			case 'room_number':
+			case 'qty':
 			case 'room_type':
 			case 'arrival':
 			case 'departure':
@@ -132,7 +132,7 @@ class Reservations_List extends WP_List_Table
 		$columns = [
 			'cb' => '<input type="checkbox" />',
 			'fullname' => __('Name'),
-			'room_number' => __('Room'),
+			'qty' => __('Qty'),
 			'room_type' => __('Type'),
 			'arrival' => __('Start'),
 			'departure' => __('End'),
@@ -148,7 +148,7 @@ class Reservations_List extends WP_List_Table
 	{
 		$sortable_columns = array(
 			'fullname' => array('first_name', false),
-			'room_number' => array('room_number', false),
+			'qty' => array('qty', false),
 			'room_type' => array('room_type', false),
 			'arrival' => array('arrival', true),
 			'departure' => array('departure', true),

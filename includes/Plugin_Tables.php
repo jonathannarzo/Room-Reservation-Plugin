@@ -10,7 +10,8 @@ class Plugin_Tables
 		$tables = array(
 			'table1' => "{$wpdb->prefix}rr_room_types",
 			'table2' => "{$wpdb->prefix}rr_rooms",
-			'table3' => "{$wpdb->prefix}rr_room_reservations"
+			'table3' => "{$wpdb->prefix}rr_room_reservations",
+			'table4' => "{$wpdb->prefix}rr_room_reservation_settings"
 		);
 		return empty($key) ? $tables : $tables[$key];
 	}
@@ -32,7 +33,7 @@ class Plugin_Tables
 			`room_type_id` int(11) NOT NULL,
 			`description` varchar(128) NOT NULL,
 			`rate` decimal(10,2) NOT NULL,
-			`room_number` varchar(64) NOT NULL,
+			`qty` int(11) NOT NULL,
 			`image` text NOT NULL,
 			`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -53,8 +54,17 @@ class Plugin_Tables
 			`departure` date NOT NULL,
 			`number_of_nights` int(11) NOT NULL,
 			`rate` decimal(10,2) NOT NULL,
+			`qty` int(11) NOT NULL,
 			`status` varchar(16) NOT NULL DEFAULT 'active',
 			`confirmation_code` varchar(16) NOT NULL,
+			`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			PRIMARY KEY (id)
+		);";
+
+		$queries['table4'] = "CREATE TABLE `$table` (
+			`id` int (11) NOT NULL AUTO_INCREMENT,
+			`paypal_email` varchar(128) NOT NULL,
 			`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			PRIMARY KEY (id)

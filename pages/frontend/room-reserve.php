@@ -12,7 +12,7 @@
 
 		$arrival = $item->arrival;
 		$departure = $item->departure;
-		$rooms[] = "{$item->room_type} (Room: {$item->room_number})";
+		$rooms[] = "{$item->room_type} (Qty: {$item->reserved_qty})";
 		$total_amount += $item->rate;
 		$number_of_nights = $item->number_of_nights;
 		$confirmation = $item->confirmation_code;
@@ -47,7 +47,7 @@
 
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr"  method="post">
 	<input type="hidden" name="cmd" value="_xclick" />
-	<input type="hidden" name="business" value="email@email.com" />
+	<input type="hidden" name="business" value="<?=$settings->paypal_email?>" />
 	<input type="hidden" name="item_name" value="Rooms Reserve" />
 	<input type="hidden" name="item_number" value="<?=$confirmation; ?>" />
 	<input type="hidden" name="amount" value="<?=$total_amount; ?>" />

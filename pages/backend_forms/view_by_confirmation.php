@@ -15,7 +15,7 @@
 
 			$arrival = $item->arrival;
 			$departure = $item->departure;
-			$room[] = "{$item->room_type} (Room: {$item->room_number}) [status: {$item->status}]";
+			$room[] = "{$item->room_type} (Qty: {$item->qty}) [status: {$item->status}]";
 			$total_amount += $item->rate;
 			$number_of_nights = $item->number_of_nights;
 			$confirmation = $item->confirmation_code;

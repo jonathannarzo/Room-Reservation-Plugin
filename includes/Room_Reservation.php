@@ -42,7 +42,7 @@ class Room_Reservation
 
 	public function plugin_menu()
 	{
-		add_menu_page('Room Reservation','Room Reservation','manage_options','jmnrrmenu', array($this, 'rooms_page'), 'dashicons-welcome-widgets-menus');
+		add_menu_page('Room Reservation','Room Reservation','manage_options','jmnrrmenu', array($this, 'rooms_page'), 'dashicons-calendar');
 		
 		$hook = add_submenu_page('jmnrrmenu', 'List of Rooms', 'Rooms', 'manage_options', 'jmnrrmenu', array($this, 'rooms_page'));
 		add_action("load-$hook", array($this, 'so_rooms_page'));
@@ -58,7 +58,7 @@ class Room_Reservation
 		$hook = add_submenu_page('jmnrrmenu', 'List of Reservations', 'Reservations', 'manage_options', 'jmnrrmenu3', array($this, 'reservation_page'));
 		add_action("load-$hook", array($this, 'so_reservation_page'));
 
-		// add_submenu_page('jmnrrmenu', '', 'Add Reservation', 'manage_options', 'jmnrrmenu3_form', 'RoomReservationApp\Includes\Reservation_Controller::form');
+		add_submenu_page('jmnrrmenu', '', 'Settings', 'manage_options', 'jmnrrmenu4', 'RoomReservationApp\Includes\Settings_Controller::form');
 	}
 
 	public function so_rooms_page()

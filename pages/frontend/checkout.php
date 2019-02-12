@@ -1,5 +1,10 @@
 <h1>Check out</h1>
 
+<?php if ($conflict_count > 0) : ?>
+	<div style="color:red;"><?=$conflict_count?> Reservation/s has been removed because it is already Unavailable.</div>
+	<p></p>
+<?php endif; ?>
+
 <div class="room-cart-container" style="display: none;">
 	<div class="room-cart-header">Selected Room/s</div>
 	<div class="room-cart-content">

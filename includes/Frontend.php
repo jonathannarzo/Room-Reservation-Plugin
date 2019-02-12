@@ -35,61 +35,10 @@ class Frontend
 	public static function check_room_availability()
 	{
 		session_start();
-
-		global $wpdb;
-
 		$start_date = $_GET['start_date'];
 		$end_date = $_GET['end_date'];
-		$values = array(
-			$start_date,
-			$end_date,
-			$start_date,
-			$end_date,
-		);
 
-		$rooms = Plugin_Tables::tables('table2'); // `rr_rooms` table
-		$room_types = Plugin_Tables::tables('table1'); // `rr_room_types` table
-		$reservations = Plugin_Tables::tables('table3'); // `rr_room_reservations` table
-		$query = "
-		SELECT r.*, rt.room_type, re.room_id, re.arrival, re.departure 
-		FROM {$rooms} r 
-		LEFT JOIN {$room_types} rt ON r.room_type_id = rt.id 
-		LEFT JOIN {$reservations} re ON r.id = re.room_id AND re.status IN ('active','paid') AND ((re.arrival BETWEEN %s AND %s) OR (re.departure BETWEEN %s AND %s)) 
-		WHERE re.room_id IS NULL";
-
-		$data = $wpdb->get_results($wpdb->prepare($query, $values));
-
-		// Re-check cart if chosen room is still available. on change of date on Check availability form
-		if ( ! empty($_SESSION['reservation_cart']))
-		{
-			$data_array = json_decode(json_encode($data), true);
-			$data_ids = array_column($data_array, 'id');
-			$selected_rooms = array();
-			foreach ($_SESSION['reservation_cart'] as $cart_key => $cart_item)
-			{
-				// stack all available selected rooms
-				if (in_array($cart_item['id'], $data_ids))
-				{
-					$selected_rooms[] = $cart_item;
-				}
-			}
-			$_SESSION['reservation_cart'] = $selected_rooms;
-
-			if ( ! empty($selected_rooms))
-			{
-				$selected_rooms_id = array_column($selected_rooms, 'id');
-				$selected_rooms_str = implode(',', $selected_rooms_id);
-
-				$query = "
-				SELECT r.*, rt.room_type, re.room_id, re.arrival, re.departure 
-				FROM {$rooms} r 
-				LEFT JOIN {$room_types} rt ON r.room_type_id = rt.id 
-				LEFT JOIN {$reservations} re ON r.id = re.room_id AND re.status IN ('active','paid') AND ((re.arrival BETWEEN %s AND %s) OR (re.departure BETWEEN %s AND %s)) 
-				WHERE r.id NOT IN ({$selected_rooms_str}) AND re.room_id IS NULL";
-
-				$data = $wpdb->get_results($wpdb->prepare($query, $values));
-			}
-		}
+		$data = Reservation_Controller::get_available_rooms();
 
 		include(JMN_RR_DIR.'pages/frontend/available_rooms.php');
 	}
@@ -113,6 +62,9 @@ class Frontend
 		session_start();
 		$start_date = $_GET['start_date'];
 		$end_date = $_GET['end_date'];
+		
+		$conflict_count = Reservation_Controller::recheck_cart($start_date, $end_date);
+
 		include(JMN_RR_DIR.'pages/frontend/checkout.php');
 	}
 
@@ -125,136 +77,33 @@ class Frontend
 
 		session_start();
 
-		if (empty($_SESSION['reservation_cart']))
+		$start_date = $_POST['start_date'];
+		$end_date = $_POST['end_date'];
+
+		$conflict_count = Reservation_Controller::recheck_cart($start_date, $end_date);
+
+		if ($conflict_count > 0 && ! isset($_POST['confirmed']))
 		{
-			die('Invalid request');	
+
 		}
 
-		$first_name = $_POST['first_name'];
-		$last_name = $_POST['last_name'];
-		$city = $_POST['city'];
-		$address = $_POST['address'];
-		$country = $_POST['country'];
-		$email = $_POST['email'];
-		$contact_no = $_POST['contact_no'];
-		$arrival = $_POST['start_date'];
-		$departure = $_POST['end_date'];
+		$save_checkout = Reservation_Controller::save_checkout();
 
-		$number_of_nights = self::get_num_nights($arrival, $departure);
-		$status = 'active';
-		$confirmation_code = self::create_confirmation_code();
-
-		global $wpdb;
-		$table = Plugin_Tables::tables('table3'); // `rr_room_reservations` table
-		$data_cart = $_SESSION['reservation_cart'];
-		$data_count = count($data_cart);
-		$insert_count = 0;
-		foreach ($data_cart as $item)
+		if ($save_checkout['success'])
 		{
-			$data_vals = array(
-				null, // id AI
-				$item['id'],
-				$first_name,
-				$last_name,
-				$city,
-				$address,
-				$country,
-				$email,
-				$contact_no,
-				$arrival,
-				$departure,
-				$number_of_nights,
-				$item['rate'] * $number_of_nights,
-				$status,
-				$confirmation_code,
-				date('Y-m-d H:i:s'), // created_at
-				date('Y-m-d H:i:s'), // updated_at
-			);
-			$data_keys = array(
-				'%s',
-				'%d',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%d',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-			);
-			$data_keys = implode(',', $data_keys);
-
-			$query = "INSERT INTO `$table` VALUES ({$data_keys})";
-
-			if ($wpdb->query($wpdb->prepare($query, $data_vals)))
-			{
-				$insert_count++;
-			}
-		}
-
-		if ($insert_count == $data_count)
-		{
-			// Success
-			
 			$_SESSION['reservation_cart'] = [];
 
-			header('location:?checkout_confirm=true&confirmation='.$confirmation_code);
+			header('location:?checkout_confirm=true&confirmation='.$save_checkout['confirmation_code']);
 		}
 	}
 
 	public static function checkout_confirm()
 	{
-		global $wpdb;
+		$data = Reservation_Controller::get_checkout_confirm_data();
 
-		$c_code = $_GET['confirmation'];
-
-		$rooms = Plugin_Tables::tables('table2'); // `rr_rooms` table
-		$room_types = Plugin_Tables::tables('table1'); // `rr_room_types` table
-		$reservations = Plugin_Tables::tables('table3'); // `rr_room_reservations` table
-
-		$query = "
-		SELECT re.*, r.room_number, rt.room_type FROM `$reservations` re 
-		JOIN `{$rooms}` r ON re.room_id = r.id 
-		JOIN `{$room_types}` rt ON rt.id = r.room_type_id 
-		WHERE re.confirmation_code=%s";
-		$data = $wpdb->get_results($wpdb->prepare($query, array($c_code)));
-
+		$settings = Settings_Controller::find();
+		
 		include(JMN_RR_DIR.'pages/frontend/room-reserve.php');
-	}
-
-	public static function create_confirmation_code()
-	{
-		$chars = "abcdefghijkmnopqrstuvwxyz023456789";
-		srand((double)microtime()*1000000);
-		$i = 0;
-		$pass = '' ;
-		while ($i <= 10)
-		{
-			$num = rand() % 33;
-			$tmp = substr($chars, $num, 1);
-			$pass = $pass . $tmp;
-			$i++;
-		}
-		return $pass;
-	}
-
-	public static function get_num_nights($start, $end)
-	{
-		$u_start_date = strtotime($start);
-		$u_end_date = strtotime($end);
-		$date_diff = $u_end_date - $u_start_date;
-		$total_days = date('j', $date_diff);
-
-		$number_of_nights = $total_days - 1;
-
-		return $number_of_nights;
 	}
 
 	public static function widgetView($settings = array())

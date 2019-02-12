@@ -63,7 +63,7 @@ class Rooms_List extends WP_List_Table
 			case 'room_type':
 			case 'description':
 			case 'rate':
-			case 'room_number':
+			case 'qty':
 				return $item[$column_name];
 			default:
 				return print_r( $item, true ); //Show the whole array for troubleshooting purposes
@@ -94,7 +94,7 @@ class Rooms_List extends WP_List_Table
 			'room_type' => __('Room Type'),
 			'description' => __('Description'),
 			'rate' => __('Rate'),
-			'room_number' => __('Room Number'),
+			'qty' => __('Qty'),
 		];
 		return $columns;
 	}
@@ -105,7 +105,7 @@ class Rooms_List extends WP_List_Table
 			'room_type' => array('room_type', false),
 			'description' => array('description', false),
 			'rate' => array('rate', true),
-			'room_number' => array('room_number', true),
+			'qty' => array('qty', true),
 		);
 		return $sortable_columns;
 	}
