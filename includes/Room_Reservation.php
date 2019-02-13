@@ -36,6 +36,16 @@ class Room_Reservation
 	public static function activate_plugin()
 	{
 		Plugin_Tables::init_tables();
+
+		$post_arr = array(
+			'post_title' => 'Room Reservation Plugin',
+			'post_content' => '['.JMN_RR_PLUGIN_SHORTCODE.']',
+			'post_type' => 'page',
+			'post_status' => 'publish',
+		);
+		$post_id = wp_insert_post($post_arr);
+		$current_user = wp_get_current_user();
+		Settings_Controller::create_settings($post_id, $current_user->user_email);
 	}
 
 	public static function deactivate_plugin() {}

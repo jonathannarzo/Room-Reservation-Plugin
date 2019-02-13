@@ -21,7 +21,7 @@ class Reservation_Controller
 		WHERE re.id=%d";
 		$data = $wpdb->get_results($wpdb->prepare($query, array($id)))[0];
 
-		include(JMN_RR_DIR.'pages/backend_forms/view_reservation.php');
+		include(JMN_RR_DIR.'pages/forms/view_reservation.php');
 	}
 
 	public static function view_by_confirmation()
@@ -41,7 +41,7 @@ class Reservation_Controller
 		WHERE re.confirmation_code=%s";
 		$data = $wpdb->get_results($wpdb->prepare($query, array($c_code)));
 
-		include(JMN_RR_DIR.'pages/backend_forms/view_by_confirmation.php');
+		include(JMN_RR_DIR.'pages/forms/view_by_confirmation.php');
 	}
 
 	public static function update_status()

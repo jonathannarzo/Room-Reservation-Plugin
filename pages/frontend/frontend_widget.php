@@ -2,7 +2,8 @@
 	$start_date = isset($_GET['start_date']) ? $_GET['start_date'] : '';
 	$end_date = isset($_GET['end_date']) ? $_GET['end_date'] : '';
 ?>
-<form method="GET" id="room_reserve_page_form">
+<form method="GET" action="<?=site_url()?>" id="room_reserve_widget_form">
+	<input type="hidden" name="page_id" value="<?=$settings->booking_page?>">
 	<table class="room-reservation-check-date-table">
 		<tr>
 			<td style="width:100px;">Start Date</td>
@@ -18,4 +19,3 @@
 		</tr>
 	</table>
 </form>
-<div class="room-reservation-separator"></div>

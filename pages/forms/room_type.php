@@ -20,7 +20,14 @@
 								<label for="stats_excel">Description :</label>
 							</th>
 							<td>
-								<textarea name="description" rows="5"><?php echo $input->description ?></textarea>
+								<?php
+									$content = get_option('description', $input->description);
+									$settings = array(
+										'textarea_rows' => 10,
+										'media_buttons' => FALSE,
+									);
+									wp_editor($content, 'description', $settings);
+								?>
 							</td>
 						</tr>
 						<tr class="form-field">

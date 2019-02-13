@@ -45,7 +45,7 @@
 	<?php echo str_repeat('*', 34); ?>
 </div>
 
-<form action="https://www.sandbox.paypal.com/cgi-bin/webscr"  method="post">
+<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 	<input type="hidden" name="cmd" value="_xclick" />
 	<input type="hidden" name="business" value="<?=$settings->paypal_email?>" />
 	<input type="hidden" name="item_name" value="Rooms Reserve" />
@@ -59,9 +59,9 @@
 	<input type="image" src="<?=JMN_RR_URL.'assets/images/paypal_button.png'?>" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" />
 	<img alt="fdff" border="0" src="<?=JMN_RR_URL.'assets/images/paypal_button.png'?>" width="1" height="1" />
 	<!-- Payment confirmed -->
-	<input type="hidden" name="return" value="payconfirm.php?confirmation=<?=$confirmation; ?>" />
+	<input type="hidden" name="return" value="<?=site_url("?page_id={$settings->booking_page}&payconfirm={$confirmation}")?>" />
 	<!-- Payment cancelled -->
-	<input type="hidden" name="cancel_return" value="cancel.php" />
+	<input type="hidden" name="cancel_return" value="<?=site_url("?page_id={$settings->booking_page}&cancel={$confirmation}")?>" />
 	<input type="hidden" name="rm" value="2" />
-	<input type="hidden" name="notify_url" value="ipn.php" />
+	<input type="hidden" name="notify_url" value="<?=site_url("?page_id={$settings->booking_page}&notify={$confirmation}")?>" />
 </form>

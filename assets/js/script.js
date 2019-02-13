@@ -9,11 +9,20 @@ jQuery(document).ready(function($){
 		$('#twbs_photos_to_upload').html(images_view.join(''));
 	}
 
-	if ($('#room_type_id').length > 0 && $('#room_description').length > 0)
+	if ($('#room_type_id').length > 0 && $('#description').length > 0)
 	{
 		$('#room_type_id').change(function(event) {
 			var description = $(this).find('option:selected').attr('description');
-			$('#room_description').html(description);
+			var activeEditor = tinyMCE.get('description');
+
+			if ($('#wp-description-wrap').hasClass('html-active'))
+			{
+				$('#description').val(description);
+			}
+			else
+			{
+				activeEditor.setContent(description);
+			}
 		});
 	}
 });

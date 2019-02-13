@@ -9,10 +9,24 @@
 					<table class="form-table">
 						<tr class="form-field">
 							<th scope="row">
-								<label for="stats_excel">Paypal Email :</label>
+								<label for="booking_page">Booking Page :</label>
 							</th>
 							<td>
-								<input type="text" name="paypal_email" value="<?php echo $input->paypal_email ?>" />
+								<select name="booking_page" id="booking_page" required>
+									<option value="">-Select a page-</option>
+								<?php foreach ($all_pages as $item) : ?>
+									<option value="<?=$item->ID?>" <?=($item->ID == $input->booking_page) ? 'selected': ''?>><?=$item->post_title?></option>
+								<?php endforeach; ?>
+								</select>
+								<p>This page must contain the <b>[room_reservation_plugin]</b> shortcode</p>
+							</td>
+						</tr>
+						<tr class="form-field">
+							<th scope="row">
+								<label for="paypal_email">Paypal Email :</label>
+							</th>
+							<td>
+								<input id="paypal_email" type="text" name="paypal_email" value="<?php echo $input->paypal_email ?>" />
 							</td>
 						</tr>
 						<tr class="form-field">

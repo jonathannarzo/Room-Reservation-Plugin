@@ -35,7 +35,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<?php if (count($data) > 0) : ?>
+	<?php if ( ! empty($data)) : ?>
 		<?php foreach ($data as $item) : ?>
 			<tr id="room_cart<?=$item['id']?>">
 				<td><?=$item['room_type'] ?></td>

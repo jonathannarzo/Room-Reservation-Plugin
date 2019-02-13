@@ -106,31 +106,16 @@ class Frontend
 		include(JMN_RR_DIR.'pages/frontend/room-reserve.php');
 	}
 
-	public static function widgetView($settings = array())
+	public static function widgetView()
 	{
 		global $wpdb;
 
-		$display = 5;
-		if ( ! empty($settings))
-		{
-			if (isset($settings['display']) && is_int($settings['display']))
-			{
-				$display = $settings['display'];
-			}
-		}
+		$settings = Settings_Controller::find();
 
-		$table = Plugin_Tables::tables('table2');
-		$query = "SELECT * FROM `$table`";
 
-		if (isset($display) && $display > 0)
-		{
-			$query .= " LIMIT {$display}";
-		}
-
-		$data = $wpdb->get_results($query);
 
 		// View file
-		include(JMN_RR_DIR.'pages/frontend_widget.php');
+		include(JMN_RR_DIR.'pages/frontend/frontend_widget.php');
 	}
 
 }

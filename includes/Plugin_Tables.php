@@ -64,6 +64,7 @@ class Plugin_Tables
 
 		$queries['table4'] = "CREATE TABLE `$table` (
 			`id` int (11) NOT NULL AUTO_INCREMENT,
+			`booking_page` int (11) NOT NULL,
 			`paypal_email` varchar(128) NOT NULL,
 			`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			`updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
