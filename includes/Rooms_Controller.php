@@ -23,7 +23,7 @@ class Rooms_Controller
 		$room_types = self::getRoomTypes();
 
 		if (isset($_GET['action']) && $_GET['action'] == 'edit') {
-			if (isset($_GET['frominsert'])) echo self::alert_message('success', 'Record saved');
+			if (isset($_GET['frominsert'])) echo Common_Helper::alert_message('success', 'Record saved');
 			$id = (int) $_GET['record'];
 			$input = self::find($id);
 			$title = 'Edit Room <a href="?page='.$_GET['page'].'" class="page-title-action">Add New</a>';
@@ -81,7 +81,7 @@ class Rooms_Controller
 			$values['data_type'],
 			array('%d')
 		);
-		if ($q) echo self::alert_message('success', 'Record saved');
+		if ($q) echo Common_Helper::alert_message('success', 'Record saved');
 	}
 
 	private static function find($id)
@@ -90,17 +90,6 @@ class Rooms_Controller
 		$table = Plugin_Tables::tables(self::use_table);
 		$query = "SELECT * FROM `$table` WHERE id=%d";
 		return $wpdb->get_results($wpdb->prepare($query, array($id)))[0];
-	}
-
-	private static function alert_message($type = 'success', $message = 'Process successfull')
-	{
-		$class = 'notice-success';
-		$type_title = 'Success';
-		if ($type == 'error') {
-			$class = 'notice-error';
-			$type_title = 'Error';
-		}
-		return "<div class='notice $class is-dismissible'><p><b>{$type_title}:</b> {$message}</p></div>";
 	}
 
 	private static function getRoomTypes()
