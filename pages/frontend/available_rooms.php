@@ -9,6 +9,7 @@
 		</div>
 	
 		<form method="GET">
+			<input type="hidden" name="page_id" value="<?=$settings->booking_page?>">
 			<input type="hidden" name="start_date" value="<?=$start_date?>" />
 			<input type="hidden" name="end_date" value="<?=$end_date?>" />
 			<?php
