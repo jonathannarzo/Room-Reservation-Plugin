@@ -16,7 +16,7 @@ class Plugin_Tables
 		return empty($key) ? $tables : $tables[$key];
 	}
 
-	private function get_create_tbl_query($table, $key)
+	private static function get_create_tbl_query($table, $key)
 	{
 		$queries = array();
 		$queries['table1'] = "CREATE TABLE `$table` (
@@ -88,7 +88,7 @@ class Plugin_Tables
 		}
 	}
 
-	private function create_table($sql)
+	private static function create_table($sql)
 	{
 		require_once (ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
