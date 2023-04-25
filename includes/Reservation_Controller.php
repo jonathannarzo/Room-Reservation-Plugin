@@ -63,7 +63,7 @@ class Reservation_Controller
 			$values['data_type'],
 			array('%d')
 		);
-		if ($q) echo self::alert_message('success', "Reservation status successfully updated to {$status}");
+		if ($q) echo Common_Helper::alert_message('success', "Reservation status successfully updated to {$status}");
 	}
 
 	public static function get_available_rooms()
