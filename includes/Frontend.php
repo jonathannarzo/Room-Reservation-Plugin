@@ -39,7 +39,8 @@ class Frontend
 		$end_date = $_GET['end_date'];
 
 		$data = Reservation_Controller::get_available_rooms();
-
+		
+		$settings = Settings_Controller::find();
 		include(JMN_RR_DIR.'pages/frontend/available_rooms.php');
 	}
 
@@ -64,7 +65,7 @@ class Frontend
 		$end_date = $_GET['end_date'];
 		
 		$conflict_count = Reservation_Controller::recheck_cart($start_date, $end_date);
-
+		$settings = Settings_Controller::find();
 		include(JMN_RR_DIR.'pages/frontend/checkout.php');
 	}
 
@@ -88,12 +89,13 @@ class Frontend
 		}
 
 		$save_checkout = Reservation_Controller::save_checkout();
-
+		$settings = Settings_Controller::find();
+		
 		if ($save_checkout['success'])
 		{
 			$_SESSION['reservation_cart'] = [];
 
-			header('location:?checkout_confirm=true&confirmation='.$save_checkout['confirmation_code']);
+			header('location:?page_id='.$settings->booking_page.'&checkout_confirm=true&confirmation='.$save_checkout['confirmation_code']);
 		}
 	}
 
@@ -111,9 +113,7 @@ class Frontend
 		global $wpdb;
 
 		$settings = Settings_Controller::find();
-
-
-
+		
 		// View file
 		include(JMN_RR_DIR.'pages/frontend/frontend_widget.php');
 	}
